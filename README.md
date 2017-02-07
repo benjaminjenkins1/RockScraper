@@ -1,2 +1,2 @@
 # RockScraper
-Scrapes the rock
+Python web scraper for the Rockefeller website migration project.
