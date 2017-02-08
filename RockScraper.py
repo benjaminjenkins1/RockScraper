@@ -29,7 +29,11 @@ h = httplib2.Http()
 
 for pageNumber in range(startPage, endPage+1):
   
-  #Check if the page exists
+  #Check if the page exists, skip if page has video or pdf
+  #
+  #
+  #TODO
+  #
   resp = h.request('http://www.rockefeller100.org/items/show/'+str(pageNumber), 'HEAD')
   if int(resp[0]['status']) == 200:
     
@@ -94,5 +98,7 @@ for pageNumber in range(startPage, endPage+1):
     #Dump metadata
     with open (writePath+fields['identifier']+'.json', 'w', encoding='utf-8') as f:
       json.dump(fields, f, ensure_ascii=False)
+  
+  else: print('page '+str(pageNumber)+' does not exist')
     
   
