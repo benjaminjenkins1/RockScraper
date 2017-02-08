@@ -59,7 +59,7 @@ for pageNumber in range(startPage, endPage+1):
         fields[key] = str(fields[key]).replace("\\n","")
         while "  " in str(fields[key]):
           fields[key] = str(fields[key]).replace("  "," ")
-        fields[key].strip()
+        fields[key] = str(fields[key]).strip()
       
       #Determine file name for large image
       lgImgFileName = "".join((noPunctuation(str(fields['identifier']+fields['title']))+'.jpg').split())
