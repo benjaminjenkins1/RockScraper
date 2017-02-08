@@ -7,7 +7,7 @@ import json
 import os
 
 #
-#Requires lxml, requests, and httplib2 (pip install ...)
+#Requires lxml, requests, and httplib2 (pip install ___)
 #
 
 # This version written with consideration for image pages only
@@ -48,7 +48,7 @@ for pageNumber in range(startPage, endPage+1):
     fields['format'] = tree.xpath('//div[@id="item-metadata"]/dl/dd[@class="metadata-definition metadata-Format"]/text()')
     fields['language'] = tree.xpath('//div[@id="item-metadata"]/dl/dd[@class="metadata-definition metadata-Language"]/text()')
     fields['type'] = tree.xpath('//div[@id="item-metadata"]/dl/dd[@class="metadata-definition metadata-Type"]/text()')
-    if fields['type'] == 'Image':
+    if 'Image' in str(fields['type']):
       fields['identifier'] = tree.xpath('//div[@id="item-metadata"]/dl/dd[@class="metadata-definition metadata-Identifier"]/text()')
       fields['spatial_coverage'] = tree.xpath('//div[@id="item-metadata"]/dl/dd[@class="metadata-definition metadata-Spatial Coverage"]/text()')
       
@@ -59,6 +59,7 @@ for pageNumber in range(startPage, endPage+1):
         fields[key] = str(fields[key]).replace("\\n","")
         while "  " in str(fields[key]):
           fields[key] = str(fields[key]).replace("  "," ")
+        fields[key].strip()
       
       #Determine file name for large image
       lgImgFileName = "".join((noPunctuation(str(fields['identifier']+fields['title']))+'.jpg').split())
