@@ -19,7 +19,9 @@ def noPunctuation(str):
 
 startPage = int(input('start page: '))
 endPage = int(input('end page: '))
-imgPath = input('path: ')
+path = input('path: ')
+if not path.endswith('/'):
+  path = path+'/'
 
 print('\n')
 
@@ -61,29 +63,36 @@ for pageNumber in range(startPage, endPage+1):
     #Determine file name for large image
     lgImgFileName = "".join((noPunctuation(str(fields['identifier']+fields['title']))+'.jpg').split())
     
-    #Large image collection
-    lgImgURL = str(tree.xpath('//div[@class="item-file image-jpeg"]/a/@href')).strip(" [ ] ' ")
-    urllib.request.urlretrieve(lgImgURL, imgPath+lgImgFileName)
-    print('write: '+lgImgFileName)
-    
     #Determine file name for thumbnail
     smImgFileName = "".join((noPunctuation(str(fields['identifier']+fields['title']))+'-thumb.jpg').split())
     
+    #Make clean write path
+    writePath = path+str(fields['identifier']+'/')
+    while " " in writePath:
+      writePath = writePath.replace(" ","")
+      
+    #Make directory for files
+    if not os.path.exists(writePath):
+      os.mkdir(writePath)
+    
+    #Large image collection
+    lgImgURL = str(tree.xpath('//div[@class="item-file image-jpeg"]/a/@href')).strip(" [ ] ' ")
+    urllib.request.urlretrieve(lgImgURL, (writePath+lgImgFileName))
+    print('write: '+lgImgFileName)
+    
     #Thumbnail collection
     smImgURL = lgImgURL.replace('original','square_thumbnails')
-    urllib.request.urlretrieve(smImgURL, imgPath+smImgFileName)
+    urllib.request.urlretrieve(smImgURL, (writePath+smImgFileName))
     print('write: '+smImgFileName)
 
     #Add file names to metadata
     fields['file_name'] = lgImgFileName
+    fields['file_path'] = writePath+lgImgFileName
     fields['thumb_file_name'] = smImgFileName
-    
-    #Make directory for files
-    filePath = imgPath+fields['identifier']
-    os.mkdir(filePath)
+    fields['thumb_file_path'] = writePath+smImgFileName
     
     #Dump metadata
-    with open (filePath+'/'+fields['identifier']+'.txt', 'w', encoding='utf-8') as f:
+    with open (writePath+fields['identifier']+'.json', 'w', encoding='utf-8') as f:
       json.dump(fields, f, ensure_ascii=False)
     
   
