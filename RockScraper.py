@@ -95,6 +95,7 @@ for pageNumber in range(startPage, endPage+1):
       #Dump metadata
       with open (writePath+fields['identifier']+'.json', 'w', encoding='utf-8') as f:
         json.dump(fields, f, ensure_ascii=False)
+        print('write: '+fields['identifier']+'.json')
     else: print('page is not of type Image')
   else: print('page '+str(pageNumber)+' does not exist')
     

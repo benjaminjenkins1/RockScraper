@@ -1,10 +1,6 @@
 from lxml import html
 import requests
-import urllib.request
 import httplib2
-import string
-import json
-import os
 
 #Scraper for pages on Rockefeller100.org
 
@@ -20,7 +16,7 @@ def getChildren(parent):
   print('</'+parent.tag+'>')
 
 
-path = input('path: ')
+#path = input('path: ')
 url = input('url: ')
 
 h = httplib2.Http()
@@ -33,11 +29,10 @@ while(not url == ''):
     tree = html.fromstring(page.content)
     
     content = tree.xpath('//div[@class="content"]')
-    #content = tree.xpath('/*')
     for item in content:
       getChildren(item)
     
-    #images)
+    #images?
     
     
     url = input('url: ')
