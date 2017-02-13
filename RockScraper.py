@@ -62,10 +62,10 @@ for pageNumber in range(startPage, endPage+1):
         fields[key] = str(fields[key]).strip()
       
       #Determine file name for large image
-      lgImgFileName = "".join((noPunctuation(str(fields['identifier']+fields['title']))+'.jpg').split())
+      lgImgFileName = "-".join((noPunctuation(str(fields['identifier']+' '+fields['title']))+'.jpg').split())
       
       #Determine file name for thumbnail
-      smImgFileName = "".join((noPunctuation(str(fields['identifier']+fields['title']))+'-thumb.jpg').split())
+      smImgFileName = "-".join((noPunctuation(str(fields['identifier']+' '+fields['title']))+'-thumb.jpg').split())
       
       #Make clean write path
       writePath = path+str(fields['identifier']+'/')
